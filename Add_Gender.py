@@ -20,7 +20,6 @@ def determine_gender(author):
             first_name = author.split()[0]
             gender = get_gender(first_name)
             if gender is not None:
-                print(author + ", " + first_name + ": " + gender)
                 return gender
     else:
         return 'NA'
@@ -28,12 +27,14 @@ def determine_gender(author):
 
 # Apply the function to create the 'Gender' column
 df['Gender'] = df['Author'].apply(determine_gender)
+print(df)
 
 # Fill empty cells with 'NA'
 df_filled = df.fillna('NA')
+print(df)
 
 # Define the file path for the output CSV file
 output_file_path = 'C:/CCLAMP_gender/C-CLAMP_metadata_gender.csv'
 
 # Write the DataFrame to a tab-delimited CSV file
-df_filled.to_csv(output_file_path, sep='\t', index=False, na_rep='NA')
+df_filled.to_csv(output_file_path, sep='\t', index=False, na_rep='NA', encoding='utf-8')
