@@ -16,11 +16,13 @@ df = pd.read_csv(file_path, sep='\t', header=None, names=columns)
 def determine_gender(author):
     if pd.notna(author):
         if ';' in author:
+            print(author + ": mixed")
             return 'mixed'
         else:
             first_name = author.split()[0]
             gender = get_gender(first_name)
             if gender is not None:
+                print(author + ": " + gender)
                 return gender
             else:
                 return 'NA'
@@ -30,19 +32,13 @@ def determine_gender(author):
 
 # Apply the function to create the 'Gender' column
 df['Gender'] = df['Author'].apply(determine_gender)
-print(df)
 
 # Fill empty cells with 'NA'
 df_filled = df.fillna('NA')
-print(df)
+print(df['Author'])
 
 # Define the file path for the output CSV file
-output_file_path = 'C:/CCLAMP_gender/C-CLAMP_metadata_gender.csv'
+output_file_path = 'C:/CCLAMP_gender/C-CLAMP_metadata_gender.txt'
 
 # Write the DataFrame to a tab-delimited CSV file using the csv module
-with open(output_file_path, 'w', newline='', encoding='utf-8') as file:
-    writer = csv.writer(file, delimiter='\t')
-    writer.writerows(df_filled.values)
-
-# Write the DataFrame to a tab-delimited CSV file
-#df_filled.to_csv(output_file_path, sep='\t', index=False, na_rep='NA', encoding='utf-8')
+df_filled.to_csv(output_file_path, sep='\t', index=False, na_rep='NA', encoding='utf-8', quoting=csv.QUOTE_NONE, quotechar='', doublequote=False, escapechar='\\')
